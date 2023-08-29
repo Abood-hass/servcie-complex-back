@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\EditCategoryRequest;
 use App\Http\Requests\CreateCategoryRequest;
-
-use function PHPSTORM_META\type;
 
 class CategoryController extends Controller
 {
@@ -26,8 +27,8 @@ class CategoryController extends Controller
     public function create()
     {
         $parent_categories = Category::select('id', 'name')->latest('id')->whereNull('parent_id')->get();
-
-        return view('admin.categories.create', compact('parent_categories'));
+        $category = new Category();
+        return view('admin.categories.create', compact('parent_categories', 'category'));
     }
 
     /**
@@ -36,8 +37,6 @@ class CategoryController extends Controller
     public function store(CreateCategoryRequest $request)
     {
         $data = $request->all();
-
-
 
         $name = json_encode([
             'en' => $data['category-name-en'],
@@ -67,7 +66,7 @@ class CategoryController extends Controller
 
         return redirect()
             ->route('admin.categories.index')
-            ->with('msg', 'Category created Success')
+            ->with('msg', 'Category Created Successfully')
             ->with('type', 'success');
     }
 
@@ -84,15 +83,47 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $parent_categories = Category::select('id', 'name')->latest('id')->where('id', '!=', $category->id)->whereNull('parent_id')->get();
+        return view('admin.categories.edit', compact('parent_categories', "category"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(EditCategoryRequest $request, Category $category)
     {
-        //
+        $data = $request->all();
+
+        $name = json_encode([
+            'en' => $data['category-name-en'],
+            'ar' => $data['category-name-ar'],
+        ], JSON_UNESCAPED_UNICODE);
+
+        $description = json_encode([
+            'en' => $data['category-description-en'],
+            'ar' => $data['category-description-ar'],
+        ], JSON_UNESCAPED_UNICODE);
+
+        if ($request->hasFile('category-image')) {
+            $path = $request->file('category-image')->store('images', 'files');
+
+            $category->image()->update(compact('path'));
+
+            File::delete(public_path($category->image->path));
+        }
+
+        $category->update([
+            'name' => $name,
+            'description' => $description,
+            'icon' => $data['category-icon'],
+            'parent_id' => $data['category-parent_id'],
+        ]);
+
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('msg', 'Category Updated Successfully')
+            ->with('type', 'success');
     }
 
     /**
@@ -100,6 +131,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        File::delete(public_path($category->image->path));
+        $category->delete();
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('msg', 'Category Deleted Successfully')
+            ->with('type', 'danger');
     }
 }

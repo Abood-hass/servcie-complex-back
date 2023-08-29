@@ -14,7 +14,6 @@
         </div>
     @endif
 
-
     <div class="top-campaign">
         <div class="d-flex m-b-30 justify-content-between">
             <h3 class="title-3">All Categories</h3>
@@ -31,7 +30,7 @@
                             #
                         </th>
                         <th class="text-center">
-                            Icon
+                            Image
                         </th>
                         <th class="text-center px-5">
                             Name
@@ -56,34 +55,33 @@
                                 {{ $loop->iteration }}
                             </td>
                             <td class="text-center">
-                                <i style="font-size: 25px;" class="{{ $category->icon ?? "No icon" }}"></i>
+                                <img width="100px" height="100px" src="{{ asset($category->image->path) }}" alt=""
+                                    srcset="">
                             </td>
                             <td class="text-center px-5">
-                                {{ $category->name }}
+                                {{ $category->name_trans }}
                             </td>
                             <td class="text-center px-3">
-                                {{ $category->parent->name }}
+                                {{ $category->parent->name_trans ?? '(none)' }}
                             </td>
                             <td class="text-center">
                                 {{ $category->services_count }}
                             </td>
                             <td class="text-center">
-                                <div class="btn-group">
-                                    <a class="btn btn-info btn-sm"
-                                        href="{{ route('admin.categories.show', $category->id) }}">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
+                                <div>
                                     <a class="btn btn-warning btn-sm"
                                         href="{{ route('admin.categories.edit', $category->id) }}">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit pr-1"></i>
+                                        Update
                                     </a>
-                                    <form class="d-inline" action="{{ route('admin.categories.destroy', $category->id) }}"
-                                        method="POST">
+                                    <form id="delete_form" class="d-inline"
+                                        action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-sm"
-                                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                                            <i class="fas fa-trash"></i>
+                                        <button data-name="{{ $category->name_en }}" onclick="deleteCategory(event)"
+                                            class="btn btn-danger btn-sm">
+                                            <i data-name="{{ $category->name_en }}" class="fas fa-trash pr-1"></i>
+                                            Delete
                                         </button>
                                     </form>
                                 </div>
@@ -103,4 +101,26 @@
     </div>
 
 
+    <!-- Sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function deleteCategory(event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Delete <b>' + event.target.dataset.name + '</b> Category',
+                text: 'Are you sure to delete ' + event.target.dataset.name + ' Category?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete this Category'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    return $('#delete_form').submit()
+                }
+
+            })
+        }
+    </script>
 @endsection

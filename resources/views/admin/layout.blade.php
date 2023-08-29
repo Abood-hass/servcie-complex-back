@@ -35,6 +35,9 @@
     <!-- Main CSS-->
     <link href="{{ asset('asset/css/theme.css') }}" rel="stylesheet" media="all">
 
+    <!-- SWEETALERT2 CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css" rel="stylesheet">
+
     @yield('css')
 </head>
 
@@ -46,7 +49,7 @@
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo px-4" href="index.html">
-                            <img style="height: 60px"
+                            <img style="height: 50px"
                                 src="{{ asset('asset/images/favo-icons/logo-no-background.svg') }}" alt="CoolAdmin" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
@@ -229,6 +232,7 @@
                     </div>
                 </div>
             </div>
+            <!-- END MAIN CONTENT-->
         </div>
 
     </div>
@@ -249,6 +253,7 @@
     <script src="{{ asset('asset/vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('asset/vendor/chartjs/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('asset/vendor/select2/select2.min.js') }}"></script>
+
 
     <!-- Main JS-->
     <script src="{{ asset('asset/js/main.js') }}"></script>
