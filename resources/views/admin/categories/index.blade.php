@@ -16,38 +16,36 @@
 
     <div class="top-campaign">
         <div class="d-flex m-b-30 justify-content-between">
-            <h3 class="title-3">All Categories</h3>
+            <h3 class="title-3">{{ __('adminPage.all-categories') }}</h3>
             <a class="btn btn-dark btn-sm text-light" href="{{ route('admin.categories.create') }}">
                 <i class="fas fa-plus pr-2"></i>
-                <span>Add new Category</span>
+                <span>{{ __('adminPage.add-new-category') }}</span>
             </a>
         </div>
         <div class="table-responsive">
-            <table class="table table-top-campaign">
+            <table class="table table-top-campaign lang-body">
                 <thead>
                     <tr>
                         <th class="text-center">
                             #
                         </th>
                         <th class="text-center">
-                            Image
+                            {{ __('adminPage.image') }}
                         </th>
                         <th class="text-center px-5">
-                            Name
+                            {{ __('adminPage.name') }}
                         </th>
                         <th class="text-center px-3">
-                            Parent Category
+                            {{ __('adminPage.parent-category') }}
                         </th>
                         <th class="text-center">
-                            Service Count
+                            {{ __('adminPage.service-count') }}
                         </th>
                         <th class="text-center">
-                            Action
+                            {{ __('adminPage.action') }}
                         </th>
                     </tr>
                 </thead>
-                @php
-                @endphp
                 <tbody>
                     @forelse ($categories as $category)
                         <tr>
@@ -72,7 +70,7 @@
                                     <a class="btn btn-warning btn-sm"
                                         href="{{ route('admin.categories.edit', $category->id) }}">
                                         <i class="fas fa-edit pr-1"></i>
-                                        Update
+                                        {{ __('adminPage.update') }}
                                     </a>
                                     <form id="delete_form" class="d-inline"
                                         action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
@@ -81,7 +79,7 @@
                                         <button data-name="{{ $category->name_en }}" onclick="deleteCategory(event)"
                                             class="btn btn-danger btn-sm">
                                             <i data-name="{{ $category->name_en }}" class="fas fa-trash pr-1"></i>
-                                            Delete
+                                            {{ __('adminPage.delete') }}
                                         </button>
                                     </form>
                                 </div>
@@ -90,7 +88,8 @@
                     @empty
                         <tr>
                             <td colspan="6" class="text-center">
-                                <h3>No Data Found</h3>
+                                <h3> {{ __('adminPage.no-data') }}
+                                </h3>
                             </td>
                         </tr>
                     @endforelse
@@ -107,20 +106,28 @@
         function deleteCategory(event) {
             event.preventDefault();
 
+
             Swal.fire({
-                title: 'Delete <b>' + event.target.dataset.name + '</b> Category',
-                text: 'Are you sure to delete ' + event.target.dataset.name + ' Category?',
+                title: "{{ __('adminPage.delete') }} " + event.target.dataset.name +
+                    " {{ __('adminPage.category') }}",
+                text: "{{ __('adminPage.check-delete') }} " + event.target.dataset.name +
+                    " {{ __('adminPage.category') }}?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Delete this Category'
+                confirmButtonText: "{{ __('adminPage.sure-delete') }}",
+                cancelButtonText: "{{ __('adminPage.cancel') }}",
             }).then((result) => {
                 if (result.isConfirmed) {
                     return $('#delete_form').submit()
                 }
-
             })
+            if (document.querySelector('html').lang == 'ar') {
+                document.querySelector('#swal2-title').style.direction = "rtl"
+                document.querySelector('#swal2-html-container').style.direction = "rtl"
+            }
+
         }
     </script>
 @endsection

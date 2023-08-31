@@ -42,7 +42,9 @@
 </head>
 
 <body class="animsition">
+
     <div class="page-wrapper">
+        
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
             <div class="header-mobile__bar">
@@ -97,6 +99,9 @@
                         <div class="header-wrap">
                             <div class="header-button ml-auto mt-0">
                                 <div class="noti-wrap">
+                                    <div class="mx-5">
+                                        <x-lang-switch></x-lang-switch>
+                                    </div>
                                     <div class="noti__item js-item-menu">
                                         <i class="zmdi zmdi-comment-more"></i>
                                         <span class="quantity">1</span>
@@ -234,14 +239,17 @@
             </div>
             <!-- END MAIN CONTENT-->
         </div>
+        <!-- END PAGE CONTAINER-->
 
     </div>
 
     <!-- Jquery JS-->
     <script src="{{ asset('asset/vendor/jquery-3.2.1.min.js') }}"></script>
+
     <!-- Bootstrap JS-->
     <script src="{{ asset('asset/vendor/bootstrap-4.1/popper.min.js') }}"></script>
     <script src="{{ asset('asset/vendor/bootstrap-4.1/bootstrap.min.js') }}"></script>
+    
     <!-- Vendor JS       -->
     <script src="{{ asset('asset/vendor/slick/slick.min.js') }}"></script>
     <script src="{{ asset('asset/vendor/wow/wow.min.js') }}"></script>
@@ -253,7 +261,6 @@
     <script src="{{ asset('asset/vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('asset/vendor/chartjs/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('asset/vendor/select2/select2.min.js') }}"></script>
-
 
     <!-- Main JS-->
     <script src="{{ asset('asset/js/main.js') }}"></script>

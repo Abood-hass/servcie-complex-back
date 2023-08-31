@@ -181,13 +181,14 @@ return [
     */
 
     'attributes' => [
+
         'category-name-en' => 'Category English Name',
         'category-description-en' => 'Category English Description',
 
-        
+
         'category-name-ar' => 'Category Arabic Name',
         'category-description-ar' => 'Category Arabic Description',
-        
+
         'category-parent_id' => 'Category Parent Name',
         'category-icon' => 'Category Icon',
     ],
